@@ -16,15 +16,65 @@ public class BinaryCodedDecimal {
 
     public BinaryCodedDecimal() {
     }
-     
+   
+    
+     /**
+      * 
+      * @param decimalNumber a positive number to encode
+      * @return  BCD representation of the passed number argument
+      * @throws IllegalArgumentException if the passed decimalNumber argument is negative or is not numeric
+      * 
+      */        
      public byte[] encode(String decimalNumber){
          
-         return null;
+       if (!BCD_PATTERN.matcher(decimalNumber).matches()) {
+            throw new IllegalArgumentException("Can only encode numerical strings"+
+                     " Invalid argument: " + decimalNumber);
+        }
+         int num=Integer.parseInt(decimalNumber);
+         int digits=decimalNumber.length();
+         int byteLen = digits % 2 == 0 ? digits / 2 : (digits + 1) / 2;
+
+         byte[] bcd = new byte[byteLen];
+          for (int i = 0; i < digits; i++) {
+            byte tmp = (byte) (num % 10);
+
+            if (i % 2 == 0) {
+                bcd[i / 2] = tmp;
+            } else {
+                bcd[i / 2] |= (byte) (tmp << 4);
+            }
+
+            num /= 10;
+        }
+
+        for (int i = 0; i < byteLen / 2; i++) {
+            byte tmp = bcd[i];
+            bcd[i] = bcd[byteLen - i - 1];
+            bcd[byteLen - i - 1] = tmp;
+        }
+
+         
+        //System.out.println(bcd);
+        return bcd;
+        
          
      }
+     /**
+      * 
+      * @param bcdData
+      * @return binary representation of the decoded Decimal Number
+      */
      public String decode(byte[] bcdData){
          
-         return null;
+         StringBuilder sb = new StringBuilder();
+        
+        
+        for (byte b : bcdData) {
+            String byteInBinary = String.format("%8s", Integer.toBinaryString(b)).replace(' ', '0');
+            sb.append(byteInBinary);
+        }
+        return sb.toString();
          
      }
     
