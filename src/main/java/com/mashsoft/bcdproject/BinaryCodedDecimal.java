@@ -5,10 +5,28 @@
  */
 package com.mashsoft.bcdproject;
 
+import java.util.regex.Pattern;
+
 /**
  *
  * @author tmashakada email:tmashakada10@gmail.com
  */
 public class BinaryCodedDecimal {
+     private static Pattern BCD_PATTERN = Pattern.compile("[0-9]+");
+
+    public BinaryCodedDecimal() {
+    }
+     
+     public byte[] encode(String decimalNumber){
+         
+         return null;
+         
+     }
+     public String decode(byte[] bcdData){
+         
+         return null;
+         
+     }
+    
     
 }
